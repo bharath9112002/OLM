@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Modal from '../../components/common/Modal';
+import CourseThumbnail from '../../components/common/CourseThumbnail';
 import { useCourses } from '../../context/CourseContext';
 
 export default function AssignCoursesModal({ isOpen, onClose, instructor, onAssign }) {
@@ -25,7 +26,7 @@ export default function AssignCoursesModal({ isOpen, onClose, instructor, onAssi
         {courses.map((c) => (
           <label key={c.id} className="flex cursor-pointer items-center gap-3 rounded-lg border border-gray-200 px-3 py-2 hover:bg-gray-50">
             <input type="checkbox" checked={selected.includes(c.id)} onChange={() => toggle(c.id)} className="accent-indigo-600" />
-            <img src={c.thumbnail} alt={c.name} className="h-10 w-10 rounded object-cover" />
+            <CourseThumbnail src={c.thumbnail} alt={c.name} className="h-10 w-10 rounded" />
             <div>
               <p className="text-sm font-medium text-gray-800">{c.name}</p>
               <p className="text-xs text-gray-500">{c.category}</p>

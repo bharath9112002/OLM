@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { loadList, saveList, seedIfEmpty, makeId } from '../utils/storage';
+import { loadList, saveList, makeId } from '../utils/storage';
 
 const AuthContext = createContext(null);
 
@@ -25,7 +25,15 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    seedIfEmpty('users', DEFAULT_USERS);
+    // Always keep the demo accounts present and working, even if a
+    // browser's localStorage already has a (possibly stale/corrupted)
+    // 'users' entry from earlier testing — only seedIfEmpty would skip
+    // re-adding them in that case, breaking the demo login shown on screen.
+    const existing = loadList('users', []);
+    const others = existing.filter(
+      (u) => !DEFAULT_USERS.some((d) => d.email.toLowerCase() === u.email.toLowerCase())
+    );
+    saveList('users', [...DEFAULT_USERS, ...others]);
     setLoading(false);
   }, []);
 

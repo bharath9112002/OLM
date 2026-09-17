@@ -2,6 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useInstructors } from '../../context/InstructorContext';
 import { useCourses } from '../../context/CourseContext';
 import EmptyState from '../../components/common/EmptyState';
+import CourseThumbnail from '../../components/common/CourseThumbnail';
 
 export default function InstructorProfile() {
   const { id } = useParams();
@@ -47,7 +48,7 @@ export default function InstructorProfile() {
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {assignedCourses.map((c) => (
                 <div key={c.id} className="flex items-center gap-3 rounded-lg border border-gray-200 p-3">
-                  <img src={c.thumbnail} alt={c.name} className="h-12 w-12 rounded object-cover" />
+                  <CourseThumbnail src={c.thumbnail} alt={c.name} className="h-12 w-12 rounded" />
                   <div>
                     <p className="text-sm font-medium text-gray-800">{c.name}</p>
                     <p className="text-xs text-gray-500">{c.category} · {c.duration}</p>

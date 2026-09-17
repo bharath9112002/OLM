@@ -5,6 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useEnrollments } from '../../context/EnrollmentContext';
 import Spinner from '../../components/common/Spinner';
 import EmptyState from '../../components/common/EmptyState';
+import CourseThumbnail from '../../components/common/CourseThumbnail';
 
 export default function CourseDetails() {
   const { id } = useParams();
@@ -38,7 +39,7 @@ export default function CourseDetails() {
       </button>
 
       <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
-        <img src={course.thumbnail} alt={course.name} className="h-64 w-full object-cover" />
+        <CourseThumbnail src={course.thumbnail} alt={course.name} className="h-64 w-full" />
         <div className="p-6">
           <div className="flex flex-wrap items-center gap-2">
             <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-600">{course.category}</span>

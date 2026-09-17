@@ -1,8 +1,10 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { loadList, saveList, makeId } from '../utils/storage';
 import { fetchCoursesFromApi } from '../api/courseApi';
+import { getCourseImage } from '../utils/courseImage';
 
 const CourseContext = createContext(null);
+const STORAGE_KEY = 'courses_v5';
 
 export function CourseProvider({ children }) {
   const [courses, setCourses] = useState([]);
@@ -13,12 +15,12 @@ export function CourseProvider({ children }) {
     setLoading(true);
     setError(null);
     try {
-      const cached = loadList('courses', null);
+      const cached = loadList(STORAGE_KEY, null);
       if (cached && cached.length) {
         setCourses(cached);
       } else {
         const apiCourses = await fetchCoursesFromApi();
-        saveList('courses', apiCourses);
+        saveList(STORAGE_KEY, apiCourses);
         setCourses(apiCourses);
       }
     } catch (err) {
@@ -33,23 +35,25 @@ export function CourseProvider({ children }) {
   }, []);
 
   const addCourse = (course) => {
-    const newCourse = { ...course, id: makeId('course') };
+    const thumbnail = course.thumbnail?.trim() || getCourseImage(course.category, course.name);
+    const newCourse = { ...course, thumbnail, id: makeId('course') };
     const updated = [newCourse, ...courses];
     setCourses(updated);
-    saveList('courses', updated);
+    saveList(STORAGE_KEY, updated);
     return newCourse;
   };
 
   const updateCourse = (id, updates) => {
-    const updated = courses.map((c) => (c.id === id ? { ...c, ...updates } : c));
+    const thumbnail = updates.thumbnail?.trim() || getCourseImage(updates.category, updates.name);
+    const updated = courses.map((c) => (c.id === id ? { ...c, ...updates, thumbnail } : c));
     setCourses(updated);
-    saveList('courses', updated);
+    saveList(STORAGE_KEY, updated);
   };
 
   const deleteCourse = (id) => {
     const updated = courses.filter((c) => c.id !== id);
     setCourses(updated);
-    saveList('courses', updated);
+    saveList(STORAGE_KEY, updated);
   };
 
   const getCourseById = (id) => courses.find((c) => c.id === id);

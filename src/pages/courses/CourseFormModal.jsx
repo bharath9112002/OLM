@@ -69,7 +69,7 @@ export default function CourseFormModal({ isOpen, onClose, onSubmit, initialData
           <input type="number" step="0.1" min="0" max="5" className="input" {...register('rating', { min: 0, max: 5 })} />
         </Field>
         <Field label="Thumbnail URL" error={errors.thumbnail}>
-          <input className="input" placeholder="https://..." {...register('thumbnail')} />
+          <input className="input" placeholder="Leave blank to auto-generate from category" {...register('thumbnail')} />
         </Field>
         <div className="sm:col-span-2">
           <Field label="Description" error={errors.description}>

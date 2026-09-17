@@ -8,6 +8,7 @@ import { SkeletonGrid } from '../../components/common/SkeletonLoader';
 import EmptyState from '../../components/common/EmptyState';
 import Pagination from '../../components/common/Pagination';
 import ConfirmDialog from '../../components/common/ConfirmDialog';
+import CourseThumbnail from '../../components/common/CourseThumbnail';
 import CourseFormModal from './CourseFormModal';
 
 const PAGE_SIZE = 8;
@@ -135,7 +136,7 @@ export default function CourseList() {
               return (
                 <div key={course.id} className="flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md">
                   <Link to={`/courses/${course.id}`}>
-                    <img src={course.thumbnail} alt={course.name} className="h-36 w-full object-cover" />
+                    <CourseThumbnail src={course.thumbnail} alt={course.name} className="h-36 w-full" />
                   </Link>
                   <div className="flex flex-1 flex-col p-4">
                     <span className="mb-1 w-fit rounded-full bg-indigo-50 px-2 py-0.5 text-[11px] font-medium text-indigo-600">
